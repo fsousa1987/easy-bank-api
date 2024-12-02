@@ -1,5 +1,6 @@
 package com.francisco.easybankapi.config;
 
+import com.francisco.easybankapi.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -28,7 +29,8 @@ public class ProjectSecurityConfig {
                         .requestMatchers("/my-account", "/my-balance", "/my-loans", "/my-cards").authenticated()
                         .requestMatchers("/notices", "/contact", "/error", "/register").permitAll());
         http.formLogin(withDefaults());
-        http.httpBasic(withDefaults());
+        http.httpBasic(hbc -> hbc
+                .authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         return http.build();
     }
 
