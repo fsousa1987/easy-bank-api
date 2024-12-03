@@ -20,8 +20,6 @@ public class ProjectSecurityProdConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        /*http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());*/
-        /*http.authorizeHttpRequests((requests) -> requests.anyRequest().denyAll());*/
         http
                 .requiresChannel(rcc -> rcc.anyRequest().requiresSecure()) // Only HTTPS
                 .csrf(AbstractHttpConfigurer::disable)
@@ -33,11 +31,6 @@ public class ProjectSecurityProdConfig {
                 .authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         return http.build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService(DataSource dataSource) {
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
