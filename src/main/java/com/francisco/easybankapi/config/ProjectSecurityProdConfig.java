@@ -22,11 +22,12 @@ public class ProjectSecurityProdConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+                .sessionManagement(smc -> smc.invalidSessionUrl("/invalid-session"))
                 .requiresChannel(rcc -> rcc.anyRequest().requiresSecure()) // Only HTTPS
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/my-account", "/my-balance", "/my-loans", "/my-cards").authenticated()
-                        .requestMatchers("/notices", "/contact", "/error", "/register").permitAll());
+                        .requestMatchers("/notices", "/contact", "/error", "/register", "/invalid-session").permitAll());
         http.formLogin(withDefaults());
         http.httpBasic(hbc -> hbc
                 .authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
