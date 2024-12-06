@@ -27,7 +27,7 @@ public class ProjectSecurityProdConfig {
                 .requiresChannel(rcc -> rcc.anyRequest().requiresSecure()) // Only HTTPS
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/my-account", "/my-balance", "/my-loans", "/my-cards").authenticated()
+                        .requestMatchers("/my-account", "/my-balance", "/my-loans", "/my-cards", "/user").authenticated()
                         .requestMatchers("/notices", "/contact", "/error", "/register", "/invalid-session").permitAll());
         http.formLogin(withDefaults());
         http.httpBasic(hbc -> hbc
