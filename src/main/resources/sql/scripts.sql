@@ -26,7 +26,7 @@ CREATE TABLE `accounts`
     `branch_address` varchar(200) NOT NULL,
     `create_dt`      date DEFAULT NULL,
     PRIMARY KEY (`account_number`),
-    KEY `customer_id` (`customer_id`),
+    KEY              `customer_id` (`customer_id`),
     CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 );
 
@@ -45,8 +45,8 @@ CREATE TABLE `account_transactions`
     `closing_balance`     int          NOT NULL,
     `create_dt`           date DEFAULT NULL,
     PRIMARY KEY (`transaction_id`),
-    KEY `customer_id` (`customer_id`),
-    KEY `account_number` (`account_number`),
+    KEY                   `customer_id` (`customer_id`),
+    KEY                   `account_number` (`account_number`),
     CONSTRAINT `accounts_ibfk_2` FOREIGN KEY (`account_number`) REFERENCES `accounts` (`account_number`) ON DELETE CASCADE,
     CONSTRAINT `acct_user_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 );
@@ -98,7 +98,7 @@ CREATE TABLE `loans`
     `outstanding_amount` int          NOT NULL,
     `create_dt`          date DEFAULT NULL,
     PRIMARY KEY (`loan_number`),
-    KEY `customer_id` (`customer_id`),
+    KEY                  `customer_id` (`customer_id`),
     CONSTRAINT `loan_customer_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 );
 
@@ -129,7 +129,7 @@ CREATE TABLE `cards`
     `available_amount` int          NOT NULL,
     `create_dt`        date DEFAULT NULL,
     PRIMARY KEY (`card_id`),
-    KEY `customer_id` (`customer_id`),
+    KEY                `customer_id` (`customer_id`),
     CONSTRAINT `card_customer_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 );
 
@@ -204,3 +204,30 @@ CREATE TABLE `contact_messages`
     `create_dt`     date DEFAULT NULL,
     PRIMARY KEY (`contact_id`)
 );
+
+CREATE TABLE authorities
+(
+    id          int         NOT NULL AUTO_INCREMENT,
+    customer_id int         NOT NULL,
+    name        varchar(50) NOT NULL,
+    PRIMARY KEY (id),
+    KEY         customer_id (customer_id),
+    CONSTRAINT authorities_ibfk_1 FOREIGN KEY (customer_id) references customer (customer_id)
+);
+
+INSERT INTO authorities (customer_id, name)
+VALUES (1, 'VIEWACCOUNT');
+INSERT INTO authorities (customer_id, name)
+VALUES (1, 'VIEWCARDS');
+INSERT INTO authorities (customer_id, name)
+VALUES (1, 'VIEWLOANS');
+INSERT INTO authorities (customer_id, name)
+VALUES (1, 'VIEWBALANCE');
+
+DELETE
+FROM authorities;
+
+INSERT INTO authorities(customer_id, name)
+VALUES (1, 'ROLE_USER');
+INSERT INTO authorities(customer_id, name)
+VALUES (1, 'ROLE_ADMIN');
