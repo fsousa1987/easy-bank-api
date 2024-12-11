@@ -3,6 +3,7 @@ package com.francisco.easybankapi.config;
 import com.francisco.easybankapi.exceptionhandling.CustomAccessDeniedHandler;
 import com.francisco.easybankapi.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import com.francisco.easybankapi.filter.AuthoritiesLoggingAfterFilter;
+import com.francisco.easybankapi.filter.AuthoritiesLoggingAtFilter;
 import com.francisco.easybankapi.filter.CsrfCookieFilter;
 import com.francisco.easybankapi.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +51,7 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP
                 .authorizeHttpRequests((requests) -> requests
                         /* .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
