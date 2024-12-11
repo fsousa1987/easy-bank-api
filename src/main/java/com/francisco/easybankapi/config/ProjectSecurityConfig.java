@@ -3,6 +3,7 @@ package com.francisco.easybankapi.config;
 import com.francisco.easybankapi.exceptionhandling.CustomAccessDeniedHandler;
 import com.francisco.easybankapi.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import com.francisco.easybankapi.filter.CsrfCookieFilter;
+import com.francisco.easybankapi.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -46,6 +47,7 @@ public class ProjectSecurityConfig {
                         .ignoringRequestMatchers("/contact", "/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP
                 .authorizeHttpRequests((requests) -> requests
                         /* .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
