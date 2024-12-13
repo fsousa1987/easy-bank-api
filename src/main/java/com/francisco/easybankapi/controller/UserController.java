@@ -75,8 +75,8 @@ public class UserController {
                 jwt = Jwts.builder()
                         .issuer("Easy Bank")
                         .subject("JWT Token")
-                        .claim("username", authentication.getName())
-                        .claim("authorities", authentication
+                        .claim("username", authenticationResponse.getName())
+                        .claim("authorities", authenticationResponse
                                 .getAuthorities()
                                 .stream()
                                 .map(GrantedAuthority::getAuthority)
