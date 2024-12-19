@@ -21,7 +21,6 @@ public class KeycloakOpaqueRoleConverter implements OpaqueTokenAuthenticationCon
 
     @Override
     public Authentication convert(String introspectedToken, OAuth2AuthenticatedPrincipal authenticatedPrincipal) {
-        String username = authenticatedPrincipal.getAttribute("preferred_username");
         Map<String, Object> realmAccess = authenticatedPrincipal.getAttribute("realm_access");
 
         Objects.requireNonNull(realmAccess, "'realmAccess' não pode ser nulo.");

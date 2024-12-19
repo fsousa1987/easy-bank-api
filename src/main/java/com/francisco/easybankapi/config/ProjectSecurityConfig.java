@@ -19,6 +19,15 @@ import java.util.List;
 @Profile("!prod")
 public class ProjectSecurityConfig {
 
+    /*@Value("${spring.security.oauth2.resourceserver.opaque.introspection-uri}")
+    String introspectionUri;
+
+    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-id}")
+    String clientId;
+
+    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-secret}")
+    String clientSecret;*/
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
@@ -51,6 +60,12 @@ public class ProjectSecurityConfig {
                 rsc -> rsc
                         .jwt(jwtConfigurer -> jwtConfigurer
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter)));
+        /*http
+                .oauth2ResourceServer(rsc -> rsc
+                        .opaqueToken(otc -> otc
+                                .authenticationConverter(new KeycloakOpaqueRoleConverter())
+                                .introspectionUri(this.introspectionUri)
+                                .introspectionClientCredentials(this.clientId, this.clientSecret)));*/
         http.exceptionHandling(ehc -> ehc
                 .accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
