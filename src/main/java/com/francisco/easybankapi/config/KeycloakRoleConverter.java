@@ -17,7 +17,7 @@ public class KeycloakRoleConverter implements Converter<Jwt, Collection<GrantedA
     public Collection<GrantedAuthority> convert(Jwt source) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ArrayList<String> roles = objectMapper.convertValue(source.getClaims().get("scope"), new TypeReference<>() {
+        ArrayList<String> roles = objectMapper.convertValue(source.getClaims().get("roles"), new TypeReference<>() {
         });
 
         if (roles == null || roles.isEmpty()) {
